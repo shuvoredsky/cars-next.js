@@ -1,5 +1,5 @@
 "use client";
-import { addAction } from "@/utils/addAction";
+import { updateAction } from "@/utils/updateAction";
 import axios from "axios";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -33,7 +33,7 @@ const UpdateForm = ({ productId }: { productId: string }) => {
   }, [product]);
 
   async function clientAddAction(formData: FormData) {
-    const { error, success } = await addAction(formData);
+    const { error, success } = await updateAction(formData, productId);
     if (error) {
       // toast notification
       toast.error(error);

@@ -29,15 +29,6 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
       .catch((err) => console.error("Error fetching product:", err));
   }, [params.productId]);
 
-  const handleDelete = async () => {
-    try {
-      await axios.delete(`/api/products/${params.productId}`);
-      router.push("/");
-    } catch (error) {
-      console.error("Delete failed", error);
-    }
-  };
-
   if (!product) return <p className="p-8">Loading...</p>;
 
   return (
@@ -71,10 +62,7 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
                 >
                   Update
                 </button>
-                <button
-                  className="block text-red-600 hover:underline mt-2"
-                  onClick={handleDelete}
-                >
+                <button className="block text-red-600 hover:underline mt-2">
                   Delete
                 </button>
               </div>
