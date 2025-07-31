@@ -34,7 +34,7 @@ const SearchPage = () => {
       id="product"
       className="px-4 md:px-12 py-5 md:py-10 flex justify-center items-center gap-5"
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
         {products.map((product: Product, index) => (
           <Link href={`/product/${product._id}`} key={index}>
             <Image

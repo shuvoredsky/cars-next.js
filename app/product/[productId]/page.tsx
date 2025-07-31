@@ -1,5 +1,4 @@
 "use client";
-
 import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
@@ -7,6 +6,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MoreHorizontal } from "lucide-react";
 import ProductList from "@/components/ProductList";
+import toast from "react-hot-toast";
 
 interface Product {
   _id: string;
@@ -21,6 +21,16 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
   const [product, setProduct] = useState<Product | null>(null);
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
+
+  const handleDelete = async () => {
+    try {
+      const response = await axios.delete(`/api/products/${params.productId}`);
+      toast.success(response.data.message);
+      router.push("/");
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Error deleting product");
+    }
+  };
 
   useEffect(() => {
     axios
@@ -62,7 +72,10 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
                 >
                   Update
                 </button>
-                <button className="block text-red-600 hover:underline mt-2">
+                <button
+                  onClick={handleDelete}
+                  className="block text-red-600 hover:underline mt-2"
+                >
                   Delete
                 </button>
               </div>
