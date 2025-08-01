@@ -27,7 +27,7 @@ export default function RootLayout({
         <body className={`${lato.className} antialiased min-h-screen w-full`}>
           <ToastProvider></ToastProvider>
           <Navbar></Navbar>
-          {children}
+          <div className="mt-14">{children}</div>
           <Footer></Footer>
         </body>
       </SessionProvider>

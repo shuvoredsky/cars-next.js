@@ -1,5 +1,6 @@
 import Hero from "@/components/Hero";
 import ProductList from "@/components/ProductList";
+import HowItWorks from "@/components/HowItWorks";
 
 export default function Home() {
   return (
@@ -9,6 +10,7 @@ export default function Home() {
         All Products
       </h2>
       <ProductList></ProductList>
+      <HowItWorks></HowItWorks>
     </div>
   );
 }

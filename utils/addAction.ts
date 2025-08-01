@@ -1,8 +1,9 @@
 "use server";
 import { connectDB } from "@/app/api/db/connectDB";
 import cloudinary from "./cloudinary";
-import { productSchema } from "@/app/api/models/product.model";
+
 import mongoose from "mongoose";
+import { productSchema } from "@/app/api/models/product.model";
 
 // Ensure single model instance
 const Product =
