@@ -1,13 +1,9 @@
 "use server";
+
 import { connectDB } from "@/app/api/db/connectDB";
 import cloudinary from "./cloudinary";
-
 import mongoose from "mongoose";
-import { productSchema } from "@/app/api/models/product.model";
-
-// Ensure single model instance
-const Product =
-  mongoose.models.Product || mongoose.model("Product", productSchema);
+import Product from "@/app/api/models/product.model";
 
 export async function addAction(formData: FormData) {
   try {
@@ -16,12 +12,45 @@ export async function addAction(formData: FormData) {
     const price = formData.get("price")?.toString();
     const link = formData.get("link")?.toString();
     const description = formData.get("description")?.toString();
+    const userName = formData.get("userName")?.toString();
+    const userEmail = formData.get("userEmail")?.toString();
 
-    if (!image || !name || !price || !link || !description) {
+    // Debug: Log received data
+    console.log("Received form data:", {
+      image: image?.name,
+      name,
+      price,
+      link,
+      description,
+      userName,
+      userEmail,
+    });
+
+    if (
+      !image ||
+      !name ||
+      !price ||
+      !link ||
+      !description ||
+      !userName ||
+      !userEmail
+    ) {
+      console.log("Missing fields:", {
+        image,
+        name,
+        price,
+        link,
+        description,
+        userName,
+        userEmail,
+      });
       return { error: "All fields are required" };
     }
 
     await connectDB();
+
+    // Debug: Check MongoDB connection
+    console.log("MongoDB connected:", mongoose.connection.readyState === 1);
 
     // Image processing
     const arrayBuffer = await image.arrayBuffer();
@@ -35,17 +64,23 @@ export async function addAction(formData: FormData) {
         .end(buffer);
     });
 
+    console.log("Image upload response:", imageResponse);
+
     // Store in DB
-    await Product.create({
+    const product = await Product.create({
       image: (imageResponse as any).secure_url,
       name,
-      price: parseFloat(price), // Convert string to number
+      price: parseFloat(price),
       link,
       description,
+      userName,
+      userEmail,
     });
+    console.log("Product created:", product);
+
     return { success: "Product added successfully" };
   } catch (error) {
-    console.error("Add product error:", error); // Log detailed error
+    console.error("Add product error:", error); // Log full error stack
     return {
       error: error instanceof Error ? error.message : "Something went wrong",
     };

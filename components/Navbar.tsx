@@ -66,6 +66,11 @@ const Navbar = () => {
                   Add Product
                 </button>
               </Link>
+              <Link href="/my-products" className="hidden sm:block">
+                <button className="text-white bg-black px-4 py-2 rounded-lg  transition">
+                  My Products
+                </button>
+              </Link>
 
               {/* User Profile */}
               <div className="relative">

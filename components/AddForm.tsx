@@ -1,24 +1,59 @@
 "use client";
+
 import { addAction } from "@/utils/addAction";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState, useEffect } from "react";
 import toast from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 const AddForm = () => {
   const router = useRouter();
+  const { data: session, status } = useSession(); // Use status to check loading state
+  const user = session?.user;
   const [imageURL, setImageURL] = useState("");
-  //server action
+  const [isUserLoaded, setIsUserLoaded] = useState(false); // Track if user data is loaded
+
+  // Wait for session to load using useEffect
+  useEffect(() => {
+    if (status === "authenticated" && user) {
+      console.log("User session loaded:", user);
+      setIsUserLoaded(true); // Set flag when user data is available
+    } else if (status === "unauthenticated") {
+      toast.error("Please log in to add a product");
+      setIsUserLoaded(false);
+    }
+  }, [status, user]); // Re-run when status or user changes
+
+  // Server action
+
   async function clientAddAction(formData: FormData) {
+    if (!isUserLoaded) {
+      toast.error("User data is not loaded yet. Please wait.");
+      return;
+    }
+
+    if (user) {
+      formData.append("userName", user.name || "");
+      formData.append("userEmail", user.email || "");
+      // Debug: Log formData contents
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+    } else {
+      console.log("No user session found");
+      toast.error("User not authenticated");
+      return;
+    }
+
     const { error, success } = await addAction(formData);
+    console.log("Server response:", { error, success }); // Add this to debug server response
     if (error) {
-      // toast notification
       toast.error(error);
     }
     if (success) {
       toast.success(success);
       router.push("/");
-
       setImageURL("");
     }
   }
@@ -34,10 +69,11 @@ const AddForm = () => {
       }
     }
   };
+
   return (
     <form
       action={clientAddAction}
-      className="w-full max-w-xl mx-auto flex flex-col justify-center items-center space-y-4 mt-3 md:mt-5 "
+      className="w-full max-w-xl mx-auto flex flex-col justify-center items-center space-y-4 mt-3 md:mt-5"
     >
       {imageURL && (
         <Image
@@ -48,7 +84,7 @@ const AddForm = () => {
           className="max-w-full max-h-72 object-cover object-center rounded-lg"
         />
       )}
-      <div className="flex flex-col w-full ">
+      <div className="flex flex-col w-full">
         <label>Product Image: </label>
         <input
           type="file"
@@ -91,7 +127,7 @@ const AddForm = () => {
           name="description"
           placeholder="Enter the product description"
           rows={4}
-          className=" px-3 py-1.5 md:py-2 text-[#252422] rounded-lg border-gray-500"
+          className="px-3 py-1.5 md:py-2 text-[#252422] rounded-lg border-gray-500"
         ></textarea>
       </div>
 
