@@ -10,7 +10,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-6 sm:py-8 md:py-12 px-4 sm:px-6 md:px-12">
+    <footer className="bg-slate-700 text-white py-6 sm:py-8 md:py-12 px-4 sm:px-6 md:px-12">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
         {/* Brand Info */}
         <div className="flex flex-col gap-3 sm:gap-4">

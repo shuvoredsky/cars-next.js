@@ -9,23 +9,20 @@ import { useSession } from "next-auth/react";
 
 const AddForm = () => {
   const router = useRouter();
-  const { data: session, status } = useSession(); // Use status to check loading state
+  const { data: session, status } = useSession();
   const user = session?.user;
   const [imageURL, setImageURL] = useState("");
-  const [isUserLoaded, setIsUserLoaded] = useState(false); // Track if user data is loaded
+  const [isUserLoaded, setIsUserLoaded] = useState(false);
 
-  // Wait for session to load using useEffect
   useEffect(() => {
     if (status === "authenticated" && user) {
       console.log("User session loaded:", user);
-      setIsUserLoaded(true); // Set flag when user data is available
+      setIsUserLoaded(true);
     } else if (status === "unauthenticated") {
       toast.error("Please log in to add a product");
       setIsUserLoaded(false);
     }
-  }, [status, user]); // Re-run when status or user changes
-
-  // Server action
+  }, [status, user]);
 
   async function clientAddAction(formData: FormData) {
     if (!isUserLoaded) {
@@ -36,7 +33,7 @@ const AddForm = () => {
     if (user) {
       formData.append("userName", user.name || "");
       formData.append("userEmail", user.email || "");
-      // Debug: Log formData contents
+
       for (let [key, value] of formData.entries()) {
         console.log(`${key}: ${value}`);
       }
@@ -127,11 +124,11 @@ const AddForm = () => {
           name="description"
           placeholder="Enter the product description"
           rows={4}
-          className="px-3 py-1.5 md:py-2 text-[#252422] rounded-lg border-gray-500"
+          className="px-3 py-1.5 md:py-2 text-black rounded-lg bg-white"
         ></textarea>
       </div>
 
-      <button className="w-full bg-black text-white px-4 py-2 rounded cursor-pointer">
+      <button className="w-full bg-slate-400 text-white px-4 py-2 rounded cursor-pointer">
         Add Product
       </button>
     </form>

@@ -1,8 +1,8 @@
 "use client";
+
 import axios from "axios";
 import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { MoreHorizontal } from "lucide-react";
 import ProductList from "@/components/ProductList";
@@ -17,14 +17,23 @@ interface Product {
   link: string;
 }
 
-const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
+const ProductDetailsPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [showMenu, setShowMenu] = useState(false);
   const router = useRouter();
+  const { productId } = useParams() as { productId: string };
+
+  useEffect(() => {
+    if (!productId) return;
+    axios
+      .get(`/api/products/${productId}`)
+      .then((res) => setProduct(res.data.product))
+      .catch((err) => console.error("Error fetching product:", err));
+  }, [productId]);
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/api/products/${params.productId}`);
+      const response = await axios.delete(`/api/products/${productId}`);
       toast.success(response.data.message);
       router.push("/");
     } catch (error: any) {
@@ -32,23 +41,15 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
     }
   };
 
-  useEffect(() => {
-    axios
-      .get(`/api/products/${params.productId}`)
-      .then((res) => setProduct(res.data.product))
-      .catch((err) => console.error("Error fetching product:", err));
-  }, [params.productId]);
-
   if (!product) return <p className="p-8">Loading...</p>;
 
   return (
-    <div className="px-4 md:px-12 py-6">
+    <div className="px-4 md:px-12 py-6 bg-slate-800 text-white">
       <button onClick={() => router.push("/")} className="text-sm mb-4">
         ← Back
       </button>
 
       <div className="flex flex-col md:flex-row gap-6 items-start justify-between">
-        {/* Left - Image */}
         <Image
           src={product.image}
           alt={product.name}
@@ -57,9 +58,7 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
           className="rounded-lg w-full md:w-[500px] object-cover"
         />
 
-        {/* Right - Info */}
         <div className="w-full md:w-1/2 relative">
-          {/* 3-dot menu */}
           <div className="absolute top-0 right-0">
             <button onClick={() => setShowMenu(!showMenu)} className="text-2xl">
               <MoreHorizontal />
@@ -89,16 +88,16 @@ const ProductDetailsPage = ({ params }: { params: { productId: string } }) => {
             href={product.link}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block mb-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800"
+            className="inline-block mb-4 bg-slate-400 text-white px-4 py-2 rounded hover:bg-gray-800"
           >
             Contact Seller
           </a>
 
           <h2 className="font-semibold text-lg mb-1">Description</h2>
-          <p className="text-gray-700">{product.description}</p>
+          <p className="text-white">{product.description}</p>
         </div>
       </div>
-      <ProductList></ProductList>
+      <ProductList />
     </div>
   );
 };
