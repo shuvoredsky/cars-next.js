@@ -1,58 +1,86 @@
-// app/api/products/[productId]/route.ts
+import { NextRequest, NextResponse } from "next/server";
 import cloudinary from "@/utils/cloudinary";
 import { connectDB } from "../../db/connectDB";
-import product from "../../models/product.model";
+import Product from "../../models/product.model";
 
-export async function GET(
-  request: Request,
-  { params }: { params: { productId: string } }
-) {
-  await connectDB();
-
-  const { productId } = params;
-
+// ✅ GET
+export async function GET(request: NextRequest, { params }: any) {
   try {
-    const singleProduct = await product.findById(productId);
+    await connectDB();
+    const { productId } = params;
 
-    if (!singleProduct) {
-      return Response.json({ message: "Product not found." }, { status: 404 });
+    if (!productId) {
+      return NextResponse.json(
+        { error: "Product ID is required" },
+        { status: 400 }
+      );
     }
 
-    return Response.json({ product: singleProduct }, { status: 200 });
-  } catch (error: any) {
-    return Response.json({ message: error.message }, { status: 500 });
+    const singleProduct = await Product.findById(productId).lean();
+
+    if (!singleProduct) {
+      return NextResponse.json(
+        { message: "Product not found." },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ product: singleProduct }, { status: 200 });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error ? error.message : "Unknown error occurred",
+      },
+      { status: 500 }
+    );
   }
 }
 
-export async function DELETE(
-  request: Request,
-  { params }: { params: { productId: string } }
-) {
-  await connectDB();
-
-  const { productId } = params;
+// ✅ DELETE
+export async function DELETE(request: NextRequest, { params }: any) {
   try {
-    const delToProduct = await product.findById(productId);
-    if (!delToProduct) {
-      return Response.json({ message: "Product not found" }, { status: 404 });
+    await connectDB();
+    const { productId } = params;
+
+    if (!productId) {
+      return NextResponse.json(
+        { error: "Product ID is required" },
+        { status: 400 }
+      );
     }
 
-    // Delete the image from Cloudinary
-    const parts = delToProduct.image.split("/");
-    const fileName = parts[parts.length - 1];
-    const imageId = fileName.split(".")[0];
-    await cloudinary.uploader
-      .destroy(`my-app/${imageId}`)
-      .then((result) => console.log("Image delete result:", result));
+    const productToDelete = await Product.findById(productId);
 
-    // Delete from database
-    await product.findByIdAndDelete(productId);
+    if (!productToDelete) {
+      return NextResponse.json(
+        { message: "Product not found" },
+        { status: 404 }
+      );
+    }
 
-    return Response.json(
+    const imageUrl = productToDelete.image;
+    if (imageUrl) {
+      const parts = imageUrl.split("/");
+      const fileName = parts[parts.length - 1];
+      const imageId = fileName.split(".")[0];
+
+      await cloudinary.uploader.destroy(`my-app/${imageId}`);
+    }
+
+    await Product.findByIdAndDelete(productId);
+
+    return NextResponse.json(
       { message: "Product deleted successfully" },
       { status: 200 }
     );
-  } catch (error: any) {
-    return Response.json({ message: error.message }, { status: 400 });
+  } catch (error: unknown) {
+    return NextResponse.json(
+      {
+        error:
+          error instanceof Error ? error.message : "Failed to delete product",
+      },
+      { status: 500 }
+    );
   }
 }

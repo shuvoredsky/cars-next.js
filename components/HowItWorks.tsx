@@ -22,15 +22,15 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="py-12 px-4 md:px-12 bg-white">
+    <section className="py-12 px-4 md:px-12 bg-slate-800">
       <div className="max-w-7xl mx-auto text-center">
         <h2 className="text-3xl font-bold mb-8">How It Works</h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {steps.map((step, index) => (
-            <div key={index} className="p-6 bg-gray-50 rounded-lg shadow-md">
+            <div key={index} className="p-6 bg-slate-700  rounded-lg shadow-md">
               <step.icon className="w-12 h-12 mx-auto text-blue-600 mb-4" />
               <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-              <p className="text-gray-600">{step.description}</p>
+              <p className="text-white">{step.description}</p>
             </div>
           ))}
         </div>

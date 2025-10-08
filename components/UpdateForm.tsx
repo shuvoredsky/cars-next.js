@@ -118,11 +118,11 @@ const UpdateForm = ({ productId }: { productId: string }) => {
           defaultValue={product?.description}
           placeholder="Enter the product description"
           rows={4}
-          className=" px-3 py-1.5 md:py-2 text-[#252422] rounded-lg border-gray-500"
+          className=" px-3 py-1.5 md:py-2 text-[#252422] rounded-lg border-white bg-white"
         ></textarea>
       </div>
 
-      <button className="w-full bg-black text-white px-4 py-2 rounded cursor-pointer">
+      <button className="w-full bg-slate-400 text-white px-4 py-2 rounded cursor-pointer">
         Update Product
       </button>
     </form>
