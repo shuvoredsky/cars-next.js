@@ -27,14 +27,19 @@ export default function SignUpPage() {
       });
 
       const result = await res.json();
-      if (!res.ok) {
-        throw new Error(result.message || "Signup failed");
-      }
+      if (res.ok) {
+        toast.success("User registered successfully!");
 
-      toast.success("User registered successfully!");
-      router.push("/");
+        await signIn("credentials", {
+          email: data.email,
+          password: data.password,
+          redirect: false,
+        });
+
+        router.push("/");
+      }
     } catch (error: any) {
-      toast.error(error.message); // Alert er bodole toast use korchi
+      toast.error(error.message);
     } finally {
       setLoading(false);
     }
