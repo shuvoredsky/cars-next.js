@@ -32,7 +32,7 @@ export default function SignUpPage() {
       }
 
       toast.success("User registered successfully!");
-      router.push("/signIn");
+      router.push("/");
     } catch (error: any) {
       alert(error.message);
     } finally {
