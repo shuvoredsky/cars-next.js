@@ -81,6 +81,11 @@ const Navbar = () => {
                   About
                 </button>
               </Link>
+              <Link href="/contact" className="hidden sm:block">
+                <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition cursor-pointer">
+                  Contact
+                </button>
+              </Link>
               <Link href="/add-product" className="hidden sm:block">
                 <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition cursor-pointer">
                   Add Product
