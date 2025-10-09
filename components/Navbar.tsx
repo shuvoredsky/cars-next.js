@@ -76,14 +76,19 @@ const Navbar = () => {
         <div className="flex items-center gap-2 sm:gap-3 md:gap-4 order-2 sm:order-3">
           {status === "authenticated" && user ? (
             <>
+              <Link href="/about" className="hidden sm:block">
+                <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition cursor-pointer">
+                  About
+                </button>
+              </Link>
               <Link href="/add-product" className="hidden sm:block">
-                <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition">
+                <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition cursor-pointer">
                   Add Product
                 </button>
               </Link>
 
               <Link href="/my-products" className="hidden sm:block">
-                <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition">
+                <button className="px-3 sm:px-4 py-2 rounded-lg text-white font-semibold bg-slate-500 hover:bg-slate-700 transition cursor-pointer">
                   My Products
                 </button>
               </Link>
