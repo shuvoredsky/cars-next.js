@@ -27,14 +27,6 @@ const Navbar = () => {
     return () => document.removeEventListener("click", handleClickOutside);
   }, []);
 
-  // if (status === "loading") {
-  //   return (
-  //     <nav className="p-4 text-center text-gray-500 bg-gray-100">
-  //       Loading...
-  //     </nav>
-  //   );
-  // }
-
   const handleSearch = (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value;
     const urlParams = new URLSearchParams(window.location.search);
