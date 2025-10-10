@@ -7,7 +7,7 @@ import CarReviewAni from "@/public/check-car.json";
 
 const ReviewCar: React.FC = () => {
   return (
-    <section className="w-full bg-gradient-to-b from-slate-700 text-white py-12 px-6 md:px-16">
+    <section className="w-full  bg-slate-800 text-white py-12 px-6 md:px-16">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-8">
         {/* Left: Content */}
         <div className="md:w-1/2">
@@ -77,7 +77,6 @@ const ReviewCar: React.FC = () => {
           </div>
         </div>
 
-        {/* Right: Lottie Animation */}
         <div className="md:w-1/2 flex items-center justify-center">
           <div className="w-full max-w-md">
             <Lottie
