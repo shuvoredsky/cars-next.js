@@ -80,7 +80,7 @@ export async function addAction(formData: FormData) {
 
     return { success: "Product added successfully" };
   } catch (error) {
-    console.error("Add product error:", error); // Log full error stack
+    console.error("Add product error:", error);
     return {
       error: error instanceof Error ? error.message : "Something went wrong",
     };

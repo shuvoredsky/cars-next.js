@@ -55,7 +55,6 @@ const ProductDetailsPage = () => {
 
   return (
     <div className="px-4 md:px-12 py-10 bg-slate-900 text-white min-h-screen">
-      {/* Back Button */}
       <button
         onClick={() => router.push("/")}
         className="flex items-center gap-2 text-gray-300 hover:text-white transition mb-8"
@@ -63,9 +62,7 @@ const ProductDetailsPage = () => {
         <ArrowLeft size={18} /> Back
       </button>
 
-      {/* Product Section */}
       <div className="flex flex-col md:flex-row gap-10 items-start justify-between bg-slate-800/60 p-6 rounded-2xl shadow-xl border border-slate-700 backdrop-blur-lg">
-        {/* Product Image */}
         <div className="w-full md:w-[45%] relative group">
           <Image
             src={product.image}
@@ -76,9 +73,7 @@ const ProductDetailsPage = () => {
           />
         </div>
 
-        {/* Product Info */}
         <div className="w-full md:w-[50%] relative">
-          {/* 3-dot menu */}
           <div className="absolute top-0 right-0">
             <button
               onClick={() => setShowMenu(!showMenu)}
@@ -130,7 +125,6 @@ const ProductDetailsPage = () => {
         </div>
       </div>
 
-      {/* Related Products Section */}
       <div className="mt-16">
         <h2 className="text-2xl font-bold mb-6">Explore More Cars 🚗</h2>
         <ProductList />

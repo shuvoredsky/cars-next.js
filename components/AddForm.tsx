@@ -44,7 +44,7 @@ const AddForm = () => {
     }
 
     const { error, success } = await addAction(formData);
-    console.log("Server response:", { error, success }); // Add this to debug server response
+    console.log("Server response:", { error, success });
     if (error) {
       toast.error(error);
     }

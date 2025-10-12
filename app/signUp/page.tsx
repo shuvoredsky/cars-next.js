@@ -128,13 +128,13 @@ export default function SignUpPage() {
         </form>
 
         <div className="mt-6 sm:mt-8 text-center">
-          <p className="text-sm mb-2 text-gray-600">Or sign up with</p>
-          <button
+          {/* <p className="text-sm mb-2 text-gray-600">Or sign up with</p> */}
+          {/* <button
             onClick={handleGoogleSignup}
             className="w-full py-2 sm:py-3 rounded-lg text-white transition bg-slate-400"
           >
             Sign Up with Google
-          </button>
+          </button> */}
         </div>
       </div>
     </div>
